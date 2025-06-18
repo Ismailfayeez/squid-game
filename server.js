@@ -7,7 +7,6 @@ const { parseJWTData } = require('./utils/parseJWT');
 const { getSessionData } = require('./session/sessionData');
 const { handleStart } = require('./events/handleStart');
 const { updateSession, createSession } = require('./session/session');
-const path = require('path');
 const { publishDataExceptMe } = require('./utils/publishData');
 const { PLAYER_JOINED, NOT_STARTED } = require('./constants');
 const { getPlayerData } = require('./session/getPlayerData');
@@ -42,7 +41,6 @@ wss.on('connection', async (ws, request) => {
     handleStart(sessionId, true);
 });
 
-app.use(express.static(path.join(__dirname, '..', 'squid-game-spa', 'dist')));
 app.use(express.json());
 
 app.post('/join', async (req, res) => {
