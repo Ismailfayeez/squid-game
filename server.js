@@ -14,7 +14,7 @@ const { handleMessage } = require('./events/handleMessage');
 
 const app = express();
 const appServer = http.createServer(app);
-
+console.log(process.env.PORT, 'process.env.PORT');
 const port = process.env.PORT || 3000;
 dotenv.config();
 
