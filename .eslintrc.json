@@ -1,0 +1,10 @@
+{
+    "env": {
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },"rules": { 
+    "no-unused-vars":"error",
+  "no-undef": "error"
+}
+}
