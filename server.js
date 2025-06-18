@@ -15,7 +15,7 @@ const { handleMessage } = require('./events/handleMessage');
 const app = express();
 const appServer = http.createServer(app);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 dotenv.config();
 
 wss.on('connection', async (ws, request) => {
