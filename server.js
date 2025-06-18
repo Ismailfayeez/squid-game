@@ -14,7 +14,6 @@ const { handleMessage } = require('./events/handleMessage');
 
 const app = express();
 const appServer = http.createServer(app);
-console.log(process.env.PORT, 'process.env.PORT');
 const port = process.env.PORT || 3000;
 dotenv.config();
 
@@ -85,6 +84,7 @@ app.patch('/join', async (req, res) => {
 });
 
 appServer.on('upgrade', (request, socket, head) => {
+    console.log();
     const { pathname } = new URL(
         `http://${process.env.HOST ?? 'localhost'}${request.url}`
     );
@@ -102,6 +102,5 @@ appServer.on('upgrade', (request, socket, head) => {
 });
 
 appServer.listen(port, () => {
-    console.log(process.env.PORT);
     console.log(`Example app listening on port ${port}`);
 });
