@@ -102,5 +102,6 @@ appServer.on('upgrade', (request, socket, head) => {
 });
 
 appServer.listen(port, () => {
+    console.log(process.env.PORT);
     console.log(`Example app listening on port ${port}`);
 });
