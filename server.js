@@ -62,7 +62,8 @@ app.post('/join', async (req, res) => {
 
     res.cookie(tokenHeaderKey, token, {
         httpOnly: false,
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'none',
     });
 
     res.status(200).send('success');
