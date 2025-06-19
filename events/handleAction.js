@@ -1,8 +1,10 @@
-const { STARTED, ALIVE, DEAD, FINISHED } = require('../constants');
+const { STARTED, ALIVE, DEAD, FINISHED, ENDED } = require('../constants');
 const { redisClient: client } = require('../create-redis-client');
 const { getDollWatching } = require('../session/dollWatching');
 const { getPlayerData } = require('../session/getPlayerData');
+const { getPlayersData } = require('../session/getPlayersData');
 const { publishData } = require('../utils/publishData');
+const { cancelSession, startSession } = require('../utils/waitAndExecute');
 
 const handleAction = async (action, { sessionId, name }) => {
     const gameStatus = await client.get(`status:${sessionId}`);
@@ -11,7 +13,7 @@ const handleAction = async (action, { sessionId, name }) => {
         'status'
     );
 
-    const setPlayer = async (key = 'status', value) =>
+    const setPlayer = async (value, key = 'status') =>
         await client.hSet(`player:${sessionId}:${name}`, key, value);
 
     if (gameStatus === STARTED && playerStatus === ALIVE) {
@@ -36,6 +38,15 @@ const handleAction = async (action, { sessionId, name }) => {
         };
 
         publishData(sessionId, data);
+
+        const players = await getPlayersData(sessionId);
+        const isAnyOneAlive = Object.values(players).find(
+            (player) => player.status === ALIVE
+        );
+        if (!isAnyOneAlive) {
+            await cancelSession();
+            startSession(ENDED, sessionId);
+        }
     }
 };
 
