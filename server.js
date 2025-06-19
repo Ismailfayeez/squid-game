@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const http = require('http');
 const dotenv = require('dotenv');
 const { wss } = require('./create-ws-server');
@@ -12,10 +13,18 @@ const { PLAYER_JOINED, NOT_STARTED } = require('./constants');
 const { getPlayerData } = require('./session/getPlayerData');
 const { handleMessage } = require('./events/handleMessage');
 
+dotenv.config();
+const port = process.env.PORT || 3000;
+const corsOptions = {
+    origin: 'http://localhost:3000', // or '*' for all
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+};
+
 const app = express();
 const appServer = http.createServer(app);
-const port = process.env.PORT || 3000;
-dotenv.config();
+
+app.use(cors(corsOptions));
 
 wss.on('connection', async (ws, request) => {
     const { sessionId, name, code } = parseJWTData(request.headers.cookie);
