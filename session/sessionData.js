@@ -7,7 +7,7 @@ const getSessionData = async (sessionId) => {
     const members = await client.sMembers(`players:${sessionId}`);
     const status = await client.get(`status:${sessionId}`);
     const dollWatching = (await client.get(`doll:${sessionId}`)) || false;
-    const players = getPlayersData(sessionId);
+    const players = await getPlayersData(sessionId);
 
     return {
         status,
