@@ -87,6 +87,7 @@ app.patch('/join', async (req, res) => {
     res.cookie(tokenHeaderKey, token, {
         httpOnly: false,
         secure: true,
+        sameSite: 'none',
     });
 
     res.status(200).send('success');
