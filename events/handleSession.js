@@ -44,7 +44,7 @@ const statusList = [
     },
     {
         status: READY,
-        timer: 7000,
+        timer: 5000,
         fn: async (sessionId) => {
             await client.set(`status:${sessionId}`, READY);
             publishData(sessionId, {
