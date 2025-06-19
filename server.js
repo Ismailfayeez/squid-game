@@ -16,7 +16,7 @@ const { handleMessage } = require('./events/handleMessage');
 dotenv.config();
 const port = process.env.PORT || 3000;
 const corsOptions = {
-    origin: 'http://localhost:3000', // or '*' for all
+    origin: 'https://squid-game-spa-a4j2.vercel.app/',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
 };
