@@ -12,19 +12,38 @@ const { publishDataExceptMe } = require('./utils/publishData');
 const { PLAYER_JOINED, NOT_STARTED } = require('./constants');
 const { getPlayerData } = require('./session/getPlayerData');
 const { handleMessage } = require('./events/handleMessage');
+const path = require('path');
+const isDevMode = process.env.NODE_ENV === 'development';
 
 dotenv.config();
 const port = process.env.PORT || 3000;
+
+const allowOriginUrl = !isDevMode
+    ? 'https://squid-game-spa.vercel.app'
+    : 'localhost:3000';
+
 const corsOptions = {
-    origin: 'https://squid-game-spa-a4j2.vercel.app',
+    origin: allowOriginUrl,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
+};
+
+const cookieOptions = {
+    httpOnly: false,
+    secure: isDevMode ? false : true,
+    ...(!isDevMode ? { sameSite: 'none' } : {}),
 };
 
 const app = express();
 const appServer = http.createServer(app);
 
 app.use(cors(corsOptions));
+
+if (isDevMode) {
+    app.use(
+        express.static(path.join(__dirname, '..', 'squid-game-spa', 'dist'))
+    );
+}
 
 wss.on('connection', async (ws, request) => {
     const { sessionId, name, code } = parseJWTData(request.headers.cookie);
@@ -60,11 +79,7 @@ app.post('/join', async (req, res) => {
     const tokenHeaderKey = process.env.TOKEN_HEADER_KEY;
     const { token } = await createSession(name);
 
-    res.cookie(tokenHeaderKey, token, {
-        httpOnly: false,
-        secure: true,
-        sameSite: 'none',
-    });
+    res.cookie(tokenHeaderKey, token, cookieOptions);
 
     res.status(200).send('success');
 });
@@ -85,17 +100,12 @@ app.patch('/join', async (req, res) => {
     const tokenHeaderKey = process.env.TOKEN_HEADER_KEY;
     const { token } = await updateSession(name, code);
 
-    res.cookie(tokenHeaderKey, token, {
-        httpOnly: false,
-        secure: true,
-        sameSite: 'none',
-    });
+    res.cookie(tokenHeaderKey, token, cookieOptions);
 
     res.status(200).send('success');
 });
 
 appServer.on('upgrade', (request, socket, head) => {
-    console.log();
     const { pathname } = new URL(
         `http://${process.env.HOST ?? 'localhost'}${request.url}`
     );
@@ -106,7 +116,6 @@ appServer.on('upgrade', (request, socket, head) => {
             wss.emit('connection', ws, request);
         });
     } else {
-        console.log('else called');
         socket.write('HTTP/1.1 400 Bad request\r\n\r\n');
         socket.destroy();
     }
