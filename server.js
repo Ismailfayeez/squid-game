@@ -24,7 +24,7 @@ const allowOriginUrl = !isDevMode
 
 const corsOptions = {
     origin: allowOriginUrl,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
 };
 
@@ -84,7 +84,7 @@ app.post('/join', async (req, res) => {
     res.status(200).send('success');
 });
 
-app.patch('/join', async (req, res) => {
+app.put('/join', async (req, res) => {
     const { name, code } = req.body;
     if (!(name && code))
         return res
@@ -121,6 +121,6 @@ appServer.on('upgrade', (request, socket, head) => {
     }
 });
 
-appServer.listen(port, '0.0.0.0', () => {
+appServer.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
