@@ -33,7 +33,7 @@ const startSession = async (currentStatus, ...args) => {
             await currentSession.fn(...args);
             state.status = statusList[index + 1]?.status;
         },
-        currentStatus ? 300 : currentSession.timer
+        currentStatus ? 500 : currentSession.timer
     );
     state?.status && startSession(undefined, ...args);
 };

@@ -12,15 +12,16 @@ const updateDollWatching = (sessionId, ms) => {
         if (gameStatus === STARTED) {
             const isDollWatching = await getDollWatching(sessionId);
 
-            await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 1);
-
             publishData(sessionId, {
                 action: 'DOLLWATCHING',
                 value: isDollWatching ? false : true,
             });
 
-            const randomNumber = Math.floor(Math.random() * 7) + 1;
-            updateDollWatching(sessionId, randomNumber);
+            setTimeout(async () => {
+                await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 1);
+                const randomNumber = Math.floor(Math.random() * 7) + 1;
+                updateDollWatching(sessionId, randomNumber);
+            }, 100);
         }
     }, ms * 1000);
 };

@@ -11,8 +11,8 @@ const PLAYER_JOINED = 'PLAYER_JOINED';
 const PLAYER_EXITED = 'PLAYER_EXITED';
 const SCORE_BOARD = 'SCORE_BOARD';
 const START_GAME = 'START_GAME';
-const MAX_ALLOW_PLAYERS = 15;
-const MIN_REQD_PLAYERS = 1;
+const MAX_ALLOW_PLAYERS = 16;
+const MIN_REQD_PLAYERS = process.env.NODE_ENV === 'production' ? 2 : 1;
 const GAME_TIME = 180000;
 const ROW_COUNT = 16;
 module.exports = {
