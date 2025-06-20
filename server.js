@@ -24,7 +24,7 @@ const allowOriginUrl = !isDevMode
 
 const corsOptions = {
     origin: allowOriginUrl,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
 };
 
@@ -121,6 +121,6 @@ appServer.on('upgrade', (request, socket, head) => {
     }
 });
 
-appServer.listen(port, () => {
+appServer.listen(port, '0.0.0.0', () => {
     console.log(`Example app listening on port ${port}`);
 });
