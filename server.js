@@ -20,7 +20,7 @@ const port = process.env.PORT || 3000;
 
 const allowOriginUrl = !isDevMode
     ? 'https://squid-game-spa.vercel.app'
-    : 'localhost:3000';
+    : 'http://localhost:3000';
 
 const corsOptions = {
     origin: allowOriginUrl,
@@ -31,7 +31,8 @@ const corsOptions = {
 const cookieOptions = {
     httpOnly: false,
     secure: isDevMode ? false : true,
-    maxAge: 1 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: '/',
     ...(!isDevMode ? { sameSite: 'none' } : {}),
 };
 
