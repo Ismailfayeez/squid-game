@@ -16,10 +16,10 @@ const handleAction = async (action, { sessionId, name }) => {
     const setPlayer = async (value, key = 'status') =>
         await client.hSet(`player:${sessionId}:${name}`, key, value);
 
-    if (gameStatus === STARTED && playerStatus === ALIVE) {
+    if (gameStatus === STARTED && playerStatus !== DEAD) {
         if (action === 'MOVE') {
             const isDollWatching = await getDollWatching(sessionId);
-            if (isDollWatching) {
+            if (isDollWatching && playerStatus == ALIVE) {
                 await setPlayer(DEAD);
                 await setPlayer(Date.now(), 'timestamp');
             } else await client.hIncrBy(`player:${sessionId}:${name}`, 'x', 1);

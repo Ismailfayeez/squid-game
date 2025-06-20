@@ -31,6 +31,7 @@ const corsOptions = {
 const cookieOptions = {
     httpOnly: false,
     secure: isDevMode ? false : true,
+    maxAge: 1 * 24 * 60 * 60 * 1000,
     ...(!isDevMode ? { sameSite: 'none' } : {}),
 };
 
