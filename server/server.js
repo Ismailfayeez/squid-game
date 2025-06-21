@@ -30,10 +30,10 @@ const corsOptions = {
 
 const cookieOptions = {
     httpOnly: false,
-    secure: isDevMode ? false : true,
+    secure: !isDevMode ,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/',
-    ...(!isDevMode ? { sameSite: 'none' } : {}),
+    sameSite: 'strict' 
 };
 
 const app = express();
@@ -41,11 +41,11 @@ const appServer = http.createServer(app);
 
 app.use(cors(corsOptions));
 
-if (isDevMode) {
-    app.use(
-        express.static(path.join(__dirname, '..', 'squid-game-spa', 'dist'))
+
+app.use(
+        express.static(path.join(__dirname, '..', 'client', 'dist'))
     );
-}
+
 
 wss.on('connection', async (ws, request) => {
     const { sessionId, name, code } = parseJWTData(request.headers.cookie);
