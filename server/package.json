@@ -5,7 +5,14 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "build:client-local":"cd ../client && yarn install && yarn build:local",
+        "build:client":"cd ../client && yarn install && yarn build",
+        
+        "build:local":"yarn install && build:client-local",
+        "build":"yarn install && yarn build:client",
+
         "start": "nodemon server.js",
+        "fresh:dev": "yarn build:local && NODE_ENV=development yarn start",
         "dev": "NODE_ENV=development yarn start"
     },
     "author": "",
