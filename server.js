@@ -33,7 +33,7 @@ const cookieOptions = {
     secure: isDevMode ? false : true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/',
-    ...(!isDevMode ? { sameSite: 'strict' } : {}),
+    ...(!isDevMode ? { sameSite: 'none' } : {}),
 };
 
 const app = express();
