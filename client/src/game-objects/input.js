@@ -5,6 +5,7 @@ export class InputHandler {
     this.handleInput = handleInput;
     this.inputMode = inputMode;
     this.previousX;
+    this.touch = false;
 
     this.triggerAction = () => {
       const {
@@ -27,7 +28,21 @@ export class InputHandler {
 
     if (inputMode === "keys")
       addEventListener("keydown", () => this.triggerAction());
-    addEventListener("touchstart", () => this.triggerAction());
+    addEventListener("touchstart", () => {
+      this.touch = true;
+      function handleTouch() {
+        if (this.touch) {
+          this.triggerAction();
+          setTimeout(() => {
+            handleTouch();
+          }, 50);
+        }
+      }
+      handleTouch();
+    });
+    addEventListener("touchend", () => {
+      this.touch = false;
+    });
   }
 
   validate() {
