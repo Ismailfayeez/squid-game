@@ -5,7 +5,7 @@ import { NOT_STARTED, PREPARING } from "../constants";
 import { useBgAudio } from "../hooks/useBgAudio";
 
 export const Room = ({ players = [], status, code, handleStart }) => {
-  const allowStart = status === NOT_STARTED && players.length >= 1;
+  const allowStart = status === NOT_STARTED && players.length >= 2;
 
   useBgAudio("theme");
 
