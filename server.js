@@ -19,7 +19,7 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 const allowOriginUrl = !isDevMode
-    ? 'https://squid-game-spa.vercel.app'
+    ? 'https://squid-game-spa.onrender.com'
     : 'http://localhost:3000';
 
 const corsOptions = {
@@ -33,7 +33,7 @@ const cookieOptions = {
     secure: isDevMode ? false : true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/',
-    ...(!isDevMode ? { sameSite: 'none' } : {}),
+    ...(!isDevMode ? { sameSite: 'strict' } : {}),
 };
 
 const app = express();
