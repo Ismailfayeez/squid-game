@@ -25,17 +25,9 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
   const timeRef = useRef(0);
   const width = 1520;
   const height = 855;
-
-  useEffect(() => {
-    screen.orientation
-      .lock("landscape")
-      .then(() => {
-        console.log(`Locked to landscape $\n`);
-      })
-      .catch((error) => {
-        console.log(` ${error}\n`);
-      });
-  }, []);
+  const isMobileDevice = window.innerWidth <= 480;
+  const canvasWidth = isMobileDevice ? height : width;
+  const canvasHeight = isMobileDevice ? width : height;
 
   useEffect(() => {
     dataRef.current = data;
@@ -43,6 +35,11 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
 
   useEffect(() => {
     const ctx = ref.current?.getContext("2d");
+    if (isMobileDevice) {
+      ctx.translate(height, 0);
+      ctx.rotate((90 * Math.PI) / 180);
+    }
+
     const game = new GameArena(
       ctx,
       width,
@@ -85,7 +82,12 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
         <audio src={Buzzer} id="buzzer" />
         <audio src={DollSong} id="doll-song" />
       </div>
-      <canvas id="canvas" width={width} height={height} ref={ref}></canvas>
+      <canvas
+        id="canvas"
+        width={canvasWidth}
+        height={canvasHeight}
+        ref={ref}
+      ></canvas>
     </div>
   );
 };
