@@ -12,8 +12,9 @@
         "build":"yarn install && yarn build:client",
 
         "start": "nodemon server.js",
-        "fresh:dev": "yarn build:local && NODE_ENV=development yarn start",
-        "dev": "NODE_ENV=development yarn start"
+         "dev": "NODE_ENV=development yarn start",
+        "fresh:dev": "yarn build:local && yarn dev"
+       
     },
     "author": "",
     "license": "ISC",

@@ -3,9 +3,12 @@ import wrBg from "../assets/wrBg.webp";
 import { PlayersTile } from "./players-tile/PlayersTile";
 import { NOT_STARTED, PREPARING } from "../constants";
 import { useBgAudio } from "../hooks/useBgAudio";
+const { MODE, VITE_API_URL } = import.meta.env;
 
 export const Room = ({ players = [], status, code, handleStart }) => {
-  const allowStart = status === NOT_STARTED && players.length >= 2;
+  const isDevMode = MODE !== "production";
+  const allowStart =
+    status === NOT_STARTED && players.length >= isDevMode ? 1 : 2;
 
   useBgAudio("theme");
 
