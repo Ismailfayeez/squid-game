@@ -14,11 +14,11 @@ const updateDollWatching = (sessionId, ms) => {
 
             publishData(sessionId, {
                 action: 'DOLLWATCHING',
-                value: isDollWatching ? false : true,
+                value: isDollWatching ? false : false,
             });
 
             setTimeout(async () => {
-                await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 1);
+                await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 0);
                 const randomNumber = Math.floor(Math.random() * 7) + 1;
                 updateDollWatching(sessionId, randomNumber);
             },!isDollWatching? 400:0);
