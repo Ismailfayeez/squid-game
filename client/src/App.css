@@ -122,6 +122,10 @@ input {
   width: 100%;
   margin: 1rem 0;
 }
+.btn--secondary {
+  color: #fc035e;
+  background-color: rgb(224, 219, 219);
+}
 .login {
   align-self: end;
   flex-direction: column;

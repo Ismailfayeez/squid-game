@@ -5,7 +5,13 @@ import { NOT_STARTED, PREPARING } from "../constants";
 import { useBgAudio } from "../hooks/useBgAudio";
 const { MODE, VITE_API_URL } = import.meta.env;
 
-export const Room = ({ players = [], status, code, handleStart }) => {
+export const Room = ({
+  players = [],
+  status,
+  code,
+  handleStart,
+  handleExit,
+}) => {
   const isDevMode = MODE !== "production";
   const allowStart =
     status === NOT_STARTED && players.length >= isDevMode ? 1 : 2;
@@ -37,6 +43,11 @@ export const Room = ({ players = [], status, code, handleStart }) => {
           <button className="btn" disabled={!allowStart} onClick={handleStart}>
             {status === PREPARING ? "Preparing game....." : "Start game"}
           </button>
+          {status === NOT_STARTED && (
+            <button className="btn btn--secondary" onClick={handleExit}>
+              Exit
+            </button>
+          )}
         </div>
       </div>
     </div>

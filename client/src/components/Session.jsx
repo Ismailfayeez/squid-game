@@ -78,9 +78,13 @@ export const Session = ({ setLocation }) => {
       return handleGesture(videoRef.current, handleMove);
     else return handleMove();
   };
-
+  const handleExit = () => {
+    document.cookie = REMOVE_TOKEN;
+    setLocation("login");
+  };
   const render = () => {
-    if (status === SCORE_BOARD) return <Score players={players} />;
+    if (status === SCORE_BOARD)
+      return <Score players={players} handleExit={handleExit} />;
     else if (isInputSrcConfirmed != null && GAME_STATUSES.includes(status))
       return (
         <Game
@@ -97,6 +101,7 @@ export const Session = ({ setLocation }) => {
           status={status}
           code={code}
           handleStart={handleStartGame}
+          handleExit={handleExit}
         />
       );
   };

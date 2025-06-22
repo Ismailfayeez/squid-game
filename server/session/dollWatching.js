@@ -21,7 +21,7 @@ const updateDollWatching = (sessionId, ms) => {
                 await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 1);
                 const randomNumber = Math.floor(Math.random() * 7) + 1;
                 updateDollWatching(sessionId, randomNumber);
-            }, 100);
+            },!isDollWatching? 400:0);
         }
     }, ms * 1000);
 };
