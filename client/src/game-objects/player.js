@@ -26,7 +26,7 @@ export class Player {
     this.totalHeight = this.fontHeight + this.headHeight + this.bodyHeight;
 
     // position
-    this.fpm = 8;
+    this.fpm = 12;
     this.x = parseInt(x);
     this.y = y * this.hpr;
     this.posX = parseInt(posX);
@@ -94,7 +94,9 @@ export class Player {
     // draw player body
     const completedFrames = this.fpm - (currentX - this.frameX);
     const currentBodyPos =
-      completedFrames === this.fpm ? 0 : Math.floor(completedFrames / 4);
+      completedFrames === this.fpm
+        ? 0
+        : Math.floor((completedFrames / 3) % 2 === 0 ? 0 : 1);
 
     this.ctx.drawImage(
       body,
@@ -114,13 +116,16 @@ export class Player {
     this.y = parseInt(y);
     this.status = status;
     const newX = this.posX + this.x * this.fpm;
-    const { lineStart } = this.game.endLine;
+    const {
+      endLine: { lineStart },
+      frameRate,
+    } = this.game;
 
     if (newX > lineStart + 20) this.hidePlayer = true;
 
     if (this.frameX < newX) {
       this.playerMoving = true;
-      this.frameX += 1;
+      this.frameX += frameRate;
     } else this.playerMoving = false;
   }
 }

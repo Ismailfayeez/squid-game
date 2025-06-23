@@ -23,6 +23,7 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
   const ref = useRef(null);
   const dataRef = useRef(data);
   const timeRef = useRef(0);
+  const frameRef = useRef(1);
   const width = 1520;
   const height = 855;
   const isMobileDevice = window.innerWidth <= 480;
@@ -42,6 +43,7 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
 
     const game = new GameArena(
       ctx,
+      frameRef.current,
       width,
       height,
       dataRef.current,
@@ -51,10 +53,18 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
     );
 
     function runGame(timestamp) {
+      let refreshTime =
+        timestamp - timeRef.current == 0 ? 1 : timestamp - timeRef.current;
+
+      let currentFps = Math.floor(1000 / refreshTime);
+      currentFps = currentFps >= 30 ? currentFps : 30;
+      const frameRate = 1 / (Math.round((currentFps / 60) * 2) / 2);
+      frameRef.current = frameRate || frameRef.current;
       timeRef.current = timestamp;
-      ctx.clearRect(0, 0, height, width);
+
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       game.draw();
-      game.update(dataRef.current);
+      game.update(frameRef.current, dataRef.current);
 
       requestAnimationFrame(runGame);
     }
