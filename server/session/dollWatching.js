@@ -17,11 +17,17 @@ const updateDollWatching = (sessionId, ms) => {
                 value: isDollWatching ? false : true,
             });
 
-            setTimeout(async () => {
-                await client.set(`doll:${sessionId}`, isDollWatching ? 0 : 1);
-                const randomNumber = Math.floor(Math.random() * 7) + 1;
-                updateDollWatching(sessionId, randomNumber);
-            },!isDollWatching? 400:0);
+            setTimeout(
+                async () => {
+                    await client.set(
+                        `doll:${sessionId}`,
+                        isDollWatching ? 0 : 1
+                    );
+                    const randomNumber = Math.floor(Math.random() * 7) + 1;
+                    updateDollWatching(sessionId, randomNumber);
+                },
+                !isDollWatching ? 300 : 0
+            );
         }
     }, ms * 1000);
 };
