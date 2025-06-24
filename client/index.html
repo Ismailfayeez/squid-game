@@ -10,13 +10,18 @@
         />
 
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-        <link as="image" href="src/assets/playArea.svg" />
-        <link as="image" href="src/assets/image.png" />
-        <link as="image" href="src/assets/deadCyle.png" />
-        <link as="image" href="src/assets/HeadsFront.png" />
-
+        <link rel="preload" as="image" href="src/assets/sgBg.webp" />
+        <link rel="preload" as="image" href="src/assets/wrBg.webp" />
+        <link rel="preload" as="image" href="src/assets/playArea.svg" />
+        <link
+            rel="preload"
+            href="https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task"
+            as="fetch"
+            type="application/octet-stream"
+            crossorigin="anonymous"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite + React</title>
+        <title>Squid game</title>
     </head>
     <body>
         <div id="root"></div>
