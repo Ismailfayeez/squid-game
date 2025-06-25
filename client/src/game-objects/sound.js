@@ -1,12 +1,19 @@
+import Pistol from '../assets/pistol.mp3';
+import RedLight from '../assets/redLight.mp3';
+import GreenLight from '../assets/greenLight.mp3';
+
 export class Sound {
     constructor() {
-        this.pistol = document.getElementById('pistol')
-        this.redLight = document.getElementById('red-light')
-        this.greenLight = document.getElementById('green-light')
+        this.audio = new Audio();
+        this.pistol = Pistol;
+        this.redLight = RedLight;
+        this.greenLight = GreenLight;
     }
     play(name, volume = 1) {
-        this[name].currentTime = 0
-        this[name].volume = volume
-        this[name].play()
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.src = this[name];
+        this.audio.volume = volume;
+        this.audio.play();
     }
 }
