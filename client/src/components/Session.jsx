@@ -7,6 +7,7 @@ import { Score } from './Score';
 import ThemeSong from '../assets/sgTheme.mp3';
 import FlyMoon from '../assets/flyMoon.mp3';
 import Notify from '../assets/notify.mp3';
+import WinningBell from '../assets/winningBell.mp3';
 import {
     FINISHED,
     GAME_STATUSES,
@@ -125,6 +126,7 @@ export const Session = ({ setLocation }) => {
             <audio src={ThemeSong} id="theme" loop />
             <audio src={FlyMoon} id="fly-moon" loop />
             <audio src={Notify} id="notify" />
+            <audio src={WinningBell} id="winning-bell" />
             {render()}
         </>
     );

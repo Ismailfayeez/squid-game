@@ -26,7 +26,7 @@ export class Player {
         this.totalHeight = this.fontHeight + this.headHeight + this.bodyHeight;
 
         // position
-        this.fpm = 20;
+        this.fpm = 24;
         this.x = parseInt(x);
         this.y = y * this.hpr;
         this.posX = parseInt(posX);
@@ -96,7 +96,7 @@ export class Player {
         const currentBodyPos =
             completedFrames === this.fpm
                 ? 0
-                : Math.floor((completedFrames / 5) % 2 === 0 ? 0 : 1);
+                : Math.floor((completedFrames / 6) % 2 === 0 ? 0 : 1);
 
         this.ctx.drawImage(
             body,
@@ -125,7 +125,7 @@ export class Player {
 
         if (this.frameX < newX) {
             this.playerMoving = true;
-            this.frameX += frameRate;
+            this.frameX += 3 * frameRate;
         } else this.playerMoving = false;
     }
 }
