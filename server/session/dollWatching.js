@@ -26,7 +26,7 @@ const updateDollWatching = (sessionId, ms) => {
                     const randomNumber = Math.floor(Math.random() * 7) + 1;
                     updateDollWatching(sessionId, randomNumber);
                 },
-                !isDollWatching ? 400 : 0
+                !isDollWatching ? 300 : 0
             );
         }
     }, ms * 1000);

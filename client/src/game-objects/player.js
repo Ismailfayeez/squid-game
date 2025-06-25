@@ -93,10 +93,11 @@ export class Player {
 
         // draw player body
         const completedFrames = this.fpm - (currentX - this.frameX);
+
         const currentBodyPos =
-            completedFrames === this.fpm
+            completedFrames >= this.fpm
                 ? 0
-                : Math.floor((completedFrames / 6) % 2 === 0 ? 0 : 1);
+                : Math.floor(Math.round(completedFrames / 6) % 2 === 0 ? 0 : 1);
 
         this.ctx.drawImage(
             body,
