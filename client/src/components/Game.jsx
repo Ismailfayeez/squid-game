@@ -54,6 +54,7 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
                 timestamp - timeRef.current == 0
                     ? 1
                     : timestamp - timeRef.current;
+            console.log(refreshTime, 'refreshTime');
             let currentFps = Math.floor(1000 / refreshTime);
             currentFps = currentFps >= 30 ? currentFps : 30;
             const frameRate = 1 / (Math.round((currentFps / 60) * 2) / 2);
