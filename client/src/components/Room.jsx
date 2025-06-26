@@ -3,12 +3,13 @@ import wrBg from '../assets/wrBg.webp';
 import { PlayersTile } from './players-tile/PlayersTile';
 import { NOT_STARTED, PREPARING } from '../constants';
 import { useBgAudio } from '../hooks/useBgAudio';
-const { MODE, VITE_API_URL } = import.meta.env;
+const { MODE } = import.meta.env;
 
 export const Room = ({
     players = [],
     status,
     code,
+    isLeader,
     handleStart,
     handleExit,
 }) => {
@@ -40,15 +41,17 @@ export const Room = ({
                         <span className="margin--zero">{code}</span>
                     </div>
 
-                    <button
-                        className="btn"
-                        disabled={!allowStart}
-                        onClick={handleStart}
-                    >
-                        {status === PREPARING
-                            ? 'Preparing game.....'
-                            : 'Start game'}
-                    </button>
+                    {isLeader && (
+                        <button
+                            className="btn"
+                            disabled={!allowStart}
+                            onClick={handleStart}
+                        >
+                            {status === PREPARING
+                                ? 'Preparing game.....'
+                                : 'Start game'}
+                        </button>
+                    )}
                     {status === NOT_STARTED && (
                         <button
                             className="btn btn--secondary"

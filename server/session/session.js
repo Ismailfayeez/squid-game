@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const { redisClient: client } = require('../create-redis-client');
-const { NOT_STARTED, ALIVE } = require('../constants');
+const { NOT_STARTED, ALIVE, LEADER, PLAYER } = require('../constants');
 
 const createSession = async (name) => {
     const sessionId = uuidv4();
@@ -17,6 +17,7 @@ const createSession = async (name) => {
         x: 0,
         y: 0,
         status: ALIVE,
+        role: LEADER,
     });
     return { token };
 };
@@ -32,6 +33,7 @@ const updateSession = async (name, code) => {
         x: 0,
         y: 0,
         status: ALIVE,
+        role: PLAYER,
     });
     return { token };
 };

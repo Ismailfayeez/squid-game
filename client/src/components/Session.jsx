@@ -28,6 +28,7 @@ export const Session = ({ setLocation }) => {
         status: players[name]?.status,
     }));
     const currentPlayerStatus = players?.[me?.name]?.status;
+    const isLeader = players?.[me?.name]?.role == 'LEADER';
 
     const {
         inputMode,
@@ -102,6 +103,7 @@ export const Session = ({ setLocation }) => {
                     players={playersStatus}
                     status={status}
                     code={code}
+                    isLeader={isLeader}
                     handleStart={handleStartGame}
                     handleExit={handleExit}
                 />

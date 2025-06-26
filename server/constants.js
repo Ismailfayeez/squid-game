@@ -1,6 +1,8 @@
 const NOT_STARTED = 'NOT_STARTED';
 const PREPARING = 'PREPARING';
 const INSTRUCT = 'INSTRUCT';
+const LEADER = 'LEADER';
+const PLAYER = 'PLAYER';
 const READY = 'READY';
 const STARTED = 'STARTED';
 const ENDED = 'ENDED';
@@ -19,6 +21,8 @@ module.exports = {
     NOT_STARTED,
     PREPARING,
     INSTRUCT,
+    LEADER,
+    PLAYER,
     READY,
     STARTED,
     ENDED,
