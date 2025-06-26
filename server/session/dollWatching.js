@@ -2,8 +2,8 @@ const { STARTED } = require('../constants');
 const { redisClient: client } = require('../create-redis-client');
 const { publishData } = require('../utils/publishData');
 
-const MIN_TIME = 3;
-const MAX_TIME = 7;
+const MIN_TIME = 2;
+const MAX_TIME = 6;
 
 const getDollWatching = async (sessionId) =>
     (await client.get(`doll:${sessionId}`)) === '1';
