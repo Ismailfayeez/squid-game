@@ -72,8 +72,7 @@ export class GameArena {
                 );
 
                 if (isFinished) {
-                    const bell = document.getElementById('winning-bell');
-                    bell.play();
+                    this.sound.play('winningBell');
                     this.handleFinish();
                     break;
                 }

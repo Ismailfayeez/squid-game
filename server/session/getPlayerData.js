@@ -6,6 +6,10 @@ const getPlayerData = async (sessionId, name) => {
     const posX = await client.hGet(`player:${sessionId}:${name}`, 'posX');
     const posY = await client.hGet(`player:${sessionId}:${name}`, 'posY');
     const status = await client.hGet(`player:${sessionId}:${name}`, 'status');
-    return { x, y, posX, posY, status };
+    const timeStamp = await client.hGet(
+        `player:${sessionId}:${name}`,
+        'timestamp'
+    );
+    return { x, y, posX, posY, status, timeStamp };
 };
 module.exports = { getPlayerData };

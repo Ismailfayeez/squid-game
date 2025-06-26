@@ -12,8 +12,6 @@ import Tree from '../assets/tree.png';
 import Branch from '../assets/branch.png';
 import Shooter from '../assets/shooter.png';
 import Walk from '../assets/walk.mp3';
-import Buzzer from '../assets/buzzer.mp3';
-import DollSong from '../assets/dollSong.mp3';
 import { GameArena } from '../game-objects/game';
 
 export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
@@ -85,8 +83,6 @@ export const Game = ({ data, inputMode, handleInput, handleFinish }) => {
                 <img src={Tree} id="tree" />
                 <img src={Branch} id="branch" />
                 <audio src={Walk} id="walk" />
-                <audio src={Buzzer} id="buzzer" />
-                <audio src={DollSong} id="doll-song" />
             </div>
             <canvas
                 id="canvas"
