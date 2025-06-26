@@ -40,7 +40,6 @@ export const Room = ({
                         <p className="margin--zero">game code :</p>{' '}
                         <span className="margin--zero">{code}</span>
                     </div>
-                    (
                     <button
                         className="btn"
                         disabled={!(allowStart || isLeader)}
@@ -50,7 +49,7 @@ export const Room = ({
                             ? 'Preparing game.....'
                             : 'Start game'}
                     </button>
-                    )
+
                     {status === NOT_STARTED && (
                         <button
                             className="btn btn--secondary"
