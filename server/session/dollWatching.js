@@ -2,6 +2,9 @@ const { STARTED } = require('../constants');
 const { redisClient: client } = require('../create-redis-client');
 const { publishData } = require('../utils/publishData');
 
+const MIN_TIME = 3;
+const MAX_TIME = 7;
+
 const getDollWatching = async (sessionId) =>
     (await client.get(`doll:${sessionId}`)) === '1';
 
@@ -23,7 +26,9 @@ const updateDollWatching = (sessionId, ms) => {
                         `doll:${sessionId}`,
                         isDollWatching ? 0 : 1
                     );
-                    const newTimer = Math.floor(Math.random() * 7) + 2;
+                    const newTimer =
+                        Math.floor(Math.random() * (MAX_TIME - MIN_TIME + 1)) +
+                        MIN_TIME;
                     updateDollWatching(sessionId, newTimer > 7 ? 7 : newTimer);
                 },
                 !isDollWatching ? 300 : 0
