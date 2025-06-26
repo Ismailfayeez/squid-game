@@ -1,10 +1,4 @@
-const {
-    STARTED,
-    ALIVE,
-    DEAD,
-    FINISHED,
-    ENDED,
-} = require('../constants');
+const { STARTED, ALIVE, DEAD, FINISHED, ENDED } = require('../constants');
 const { redisClient: client } = require('../create-redis-client');
 const { getDollWatching } = require('../session/dollWatching');
 const { getPlayerData } = require('../session/getPlayerData');
@@ -51,7 +45,7 @@ const handleAction = async (action, { sessionId, name }) => {
         );
         if (!isAnyOneAlive) {
             await cancelSession();
-            startSession(ENDED, sessionId);
+            startSession({ status: ENDED, timer: 2000 }, sessionId);
         }
     }
 };
