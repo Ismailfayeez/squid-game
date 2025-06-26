@@ -29,9 +29,9 @@ const updateDollWatching = (sessionId, ms) => {
                     const newTimer =
                         Math.floor(Math.random() * (MAX_TIME - MIN_TIME + 1)) +
                         MIN_TIME;
-                    updateDollWatching(sessionId, newTimer > 7 ? 7 : newTimer);
+                    updateDollWatching(sessionId, newTimer);
                 },
-                !isDollWatching ? 300 : 0
+                !isDollWatching ? 250 : 0
             );
         }
     }, ms * 1000);

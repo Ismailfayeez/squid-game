@@ -13,7 +13,7 @@ const SCORE_BOARD = 'SCORE_BOARD';
 const START_GAME = 'START_GAME';
 const MAX_ALLOW_PLAYERS = 16;
 const MIN_REQD_PLAYERS = process.env.NODE_ENV === 'production' ? 2 : 1;
-const GAME_TIME = 180000;
+const GAME_TIME = 150000;
 const ROW_COUNT = 5;
 module.exports = {
     NOT_STARTED,
