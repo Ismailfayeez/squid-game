@@ -23,8 +23,8 @@ const updateDollWatching = (sessionId, ms) => {
                         `doll:${sessionId}`,
                         isDollWatching ? 0 : 1
                     );
-                    const randomNumber = Math.floor(Math.random() * 7) + 2;
-                    updateDollWatching(sessionId, randomNumber);
+                    const newTimer = Math.floor(Math.random() * 7) + 2;
+                    updateDollWatching(sessionId, newTimer > 7 ? 7 : newTimer);
                 },
                 !isDollWatching ? 300 : 0
             );
