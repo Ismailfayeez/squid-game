@@ -42,7 +42,7 @@ export const Room = ({
                     </div>
                     <button
                         className="btn"
-                        disabled={!(allowStart || isLeader)}
+                        disabled={!(allowStart && isLeader)}
                         onClick={handleStart}
                     >
                         {status === PREPARING
