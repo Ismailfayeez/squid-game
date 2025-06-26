@@ -23,7 +23,7 @@ const cancelSession = () => {
     state.resolver?.();
 };
 
-const startSession = async ({ status: newStatus, timer }, ...args) => {
+const startSession = async ({ status: newStatus, timer } = {}, ...args) => {
     const status = newStatus || state?.status;
     const i = statusList.findIndex((item) => item.status === status);
     const index = i !== -1 ? i : 0;
