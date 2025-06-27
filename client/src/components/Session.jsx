@@ -65,6 +65,7 @@ export const Session = ({ setLocation }) => {
         socketRef.current.send(JSON.stringify({ action: START_GAME }));
 
     const handleMove = () => {
+        dispatch({ action: 'PREDICT_MOVE', name: me?.name });
         socketRef.current.send(JSON.stringify({ action: MOVE }));
         const walkSound = document.getElementById('walk');
         walkSound.playbackRate = 16;
@@ -76,7 +77,6 @@ export const Session = ({ setLocation }) => {
         socketRef.current.send(JSON.stringify({ action: FINISHED }));
 
     const handleInput = (inputMode) => {
-        console.log();
         if (inputMode === 'camera')
             return handleGesture(videoRef.current, handleMove);
         else return handleMove();
