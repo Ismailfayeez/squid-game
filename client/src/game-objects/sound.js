@@ -7,19 +7,16 @@ import Buzzer from '../assets/buzzer.mp3';
 
 export class Sound {
     constructor() {
-        this.audio = new Audio();
-        this.pistol = Pistol;
-        this.redLight = RedLight;
-        this.greenLight = GreenLight;
-        this.winningBell = WinningBell;
-        this.dollSong = DollSong;
-        this.buzzer = Buzzer;
+        this.pistol = new Audio(Pistol);
+        this.redLight = new Audio(RedLight);
+        this.greenLight = new Audio(GreenLight);
+        this.winningBell = new Audio(WinningBell);
+        this.dollSong = new Audio(DollSong);
+        this.buzzer = new Audio(Buzzer);
     }
     play(name, volume = 1) {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.audio.src = this[name];
-        this.audio.volume = volume;
-        this.audio.play();
+        this[name].currentTime = 0;
+        this[name].volume = volume;
+        this[name].play();
     }
 }
