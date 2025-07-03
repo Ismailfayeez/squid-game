@@ -6,21 +6,19 @@ import { Table } from './ui/Table';
 import { PRIZES } from '../constants';
 
 export const Score = ({ players, handleExit }) => {
-    const playersList = Object.keys(players).map((name) => ({
-        name,
-        ...players[name],
-    }));
-    const initialPlayersList = playersList.map(({ name }) => ({
+    const initialPlayers = players.map(({ name }) => ({
         name,
         status: 'ALIVE',
     }));
-    const rankingPlayers = playersList
+
+    const rankingPlayers = players
         .filter((player) => player.status === 'FINISHED')
         .sort((a, b) => a.timeStamp - b.timeStamp)
         .slice(0, 3)
         .map(({ name }, index) => [index + 1, name, `${PRIZES[index]} usd`]);
 
     useBgAudio('fly-moon');
+
     return (
         <>
             <div
@@ -41,8 +39,8 @@ export const Score = ({ players, handleExit }) => {
                     <div style={{ padding: '0 50px' }}>
                         <div className="player-tiles-container">
                             <PlayersTile
-                                players={playersList}
-                                initialPlayers={initialPlayersList}
+                                players={players}
+                                initialPlayers={initialPlayers}
                             />
                         </div>
                     </div>

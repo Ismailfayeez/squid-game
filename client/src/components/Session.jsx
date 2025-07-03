@@ -1,133 +1,53 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React from 'react';
 import { Game } from './Game';
-import { gameReducer } from '../reducer';
-import { handleGesture } from '../gesture-recognizer/handleGesture';
 import { Room } from './Room';
 import { Score } from './Score';
-import ThemeSong from '../assets/sgTheme.mp3';
-import FlyMoon from '../assets/flyMoon.mp3';
-import Notify from '../assets/notify.mp3';
-import {
-    FINISHED,
-    GAME_STATUSES,
-    MOVE,
-    REMOVE_TOKEN,
-    SCORE_BOARD,
-    START_GAME,
-} from '../constants';
-import { useInputSource } from '../hooks/useInputSource';
+import { useSession } from '../hooks/useSession';
+import { GAME_STATUSES, SCORE_BOARD, ROOM, GAME } from '../constants';
+import { SessionMedia } from './media/SessionMedia';
 
 export const Session = ({ setLocation }) => {
-    const [data, dispatch] = useReducer(gameReducer, {});
-    const { status, gameStat: { players = {} } = {}, code, me } = data;
+    const { data, input, game, handlers, currentPlayer, players } = useSession({
+        setLocation,
+    });
 
-    const socketRef = useRef(null);
+    const { handleStart, handleInput, handleFinish, handleExit } = handlers;
 
-    const playersStatus = Object.keys(players).map((name) => ({
-        name,
-        status: players[name]?.status,
-    }));
-    const currentPlayerStatus = players?.[me?.name]?.status;
-    const isLeader = players?.[me?.name]?.role == 'LEADER';
-
-    const {
-        inputMode,
-        isInputSrcConfirmed,
-        canvasRef: videoRef,
-    } = useInputSource(status, currentPlayerStatus);
-    const { MODE, VITE_API_URL } = import.meta.env;
-
-    const protocol = MODE === 'production' ? 'wss' : 'ws';
-    const domain = MODE === 'production' ? VITE_API_URL : 'localhost:3000';
-    const baseUrl = `${protocol}://${domain}`;
-
-    useEffect(() => {
-        socketRef.current = new WebSocket(`${baseUrl}/game`);
-
-        socketRef.current.onmessage = ({ data }) =>
-            dispatch({ data: JSON.parse(data) });
-
-        socketRef.current.onopen = () => {
-            console.log('open');
-        };
-        socketRef.current.onclose = () => {
-            document.cookie = REMOVE_TOKEN;
-        };
-        socketRef.current.onerror = () => {
-            document.cookie = REMOVE_TOKEN;
-            setLocation('login');
-        };
-
-        return () => socketRef.current.close();
-    }, []);
-
-    const handleStartGame = () =>
-        socketRef.current.send(JSON.stringify({ action: START_GAME }));
-
-    const handleMove = () => {
-        dispatch({ action: 'PREDICT_MOVE', name: me?.name });
-        socketRef.current.send(JSON.stringify({ action: MOVE }));
-        const walkSound = document.getElementById('walk');
-        walkSound.playbackRate = 16;
-        walkSound.play();
-        return 1;
+    const pages = {
+        [ROOM]: {
+            component: Room,
+            props: {
+                players,
+                isLeader: currentPlayer.isLeader,
+                handleStart,
+                handleExit,
+                ...game,
+            },
+        },
+        [GAME]: {
+            component: Game,
+            props: {
+                data,
+                inputMode: input.mode,
+                handleInput,
+                handleFinish,
+            },
+        },
+        [SCORE_BOARD]: { component: Score, props: { players, handleExit } },
     };
 
-    const handleFinish = () =>
-        socketRef.current.send(JSON.stringify({ action: FINISHED }));
+    let currentPage = pages[game.status] ? game.status : ROOM;
 
-    const handleInput = (inputMode) => {
-        if (inputMode === 'camera')
-            return handleGesture(videoRef.current, handleMove);
-        else return handleMove();
-    };
-    const handleExit = () => {
-        document.cookie = REMOVE_TOKEN;
-        setLocation('login');
-    };
-    const render = () => {
-        if (status === SCORE_BOARD)
-            return <Score players={players} handleExit={handleExit} />;
-        else if (isInputSrcConfirmed != null && GAME_STATUSES.includes(status))
-            return (
-                <Game
-                    data={data}
-                    inputMode={inputMode}
-                    handleInput={handleInput}
-                    handleFinish={handleFinish}
-                />
-            );
-        else
-            return (
-                <Room
-                    players={playersStatus}
-                    status={status}
-                    code={code}
-                    isLeader={isLeader}
-                    handleStart={handleStartGame}
-                    handleExit={handleExit}
-                />
-            );
-    };
+    if (input.isSrcConfirmed != null && GAME_STATUSES.includes(game.status)) {
+        currentPage = GAME;
+    }
+
+    const { component: Component, props } = pages[currentPage] || {};
+
     return (
         <>
-            <video
-                id="camera-video"
-                className="webcam"
-                autoPlay
-                playsInline
-                muted
-            />
-            <canvas
-                id="camera-canvas"
-                className="webcam"
-                width={480}
-                height={640}
-            />
-            <audio src={ThemeSong} id="theme" loop />
-            <audio src={FlyMoon} id="fly-moon" loop />
-
-            {render()}
+            <SessionMedia />
+            <Component {...props} />
         </>
     );
 };

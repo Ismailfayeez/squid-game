@@ -1,6 +1,6 @@
 export const gameReducer = (state = {}, { data = {} }) => {
     const { action, value } = data;
-    const { gameStat = {} } = state;
+    const { gameStat = {}, me } = state;
     const { players = {} } = gameStat;
 
     if (action === 'PLAYER_JOINED' && !players[data.name]) {
@@ -22,9 +22,9 @@ export const gameReducer = (state = {}, { data = {} }) => {
                 ...gameStat,
                 players: {
                     ...players,
-                    [data.name]: {
-                        ...players[data.name],
-                        x: players[data.name].x + 1,
+                    [me.name]: {
+                        ...players[me.name],
+                        x: players[me.name].x + 1,
                     },
                 },
             },

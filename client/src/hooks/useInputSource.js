@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { fetchCameraStream } from '../utils/fetchCameraStream';
-import { ACTIVE_GAME_STATUSES, CLOSED_GAME_STATUSES } from '../constants';
+import {
+    ACTIVE_GAME_STATUSES,
+    ALIVE,
+    CLOSED_GAME_STATUSES,
+} from '../constants';
 
 export const useInputSource = (gameStatus, playerStatus) => {
-    const [inputMode, setInputMode] = useState('keys');
-    const [isInputSrcConfirmed, setIsInputSrcConfirmed] = useState(null);
+    const [mode, setMode] = useState('keys');
+    const [isSrcConfirmed, setIsSrcConfirmed] = useState(null);
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -13,15 +17,19 @@ export const useInputSource = (gameStatus, playerStatus) => {
 
     const getInputSourceConfirmation = async () => {
         try {
-            // get elements
             videoRef.current = document.getElementById('camera-video');
             canvasRef.current = document.getElementById('camera-canvas');
             streamRef.current = await fetchCameraStream(videoRef.current);
+            const handleLoaddedData = () => {
+                setMode('camera');
+                setIsSrcConfirmed(true);
+                videoRef.current.removeEventListener(
+                    'loadeddata',
+                    handleLoaddedData
+                );
+            };
 
-            videoRef.current.addEventListener('loadeddata', () => {
-                setInputMode('camera');
-                setIsInputSrcConfirmed(true);
-            });
+            videoRef.current.addEventListener('loadeddata', handleLoaddedData);
 
             // create canvas
             const { width, height } = canvasRef.current;
@@ -42,10 +50,11 @@ export const useInputSource = (gameStatus, playerStatus) => {
 
             createCanvasVideo();
         } catch {
-            setInputMode('keys');
-            setIsInputSrcConfirmed(true);
+            setMode('keys');
+            setIsSrcConfirmed(true);
         }
     };
+
     const removeVideoCapture = () => {
         streamRef.current?.getTracks()?.forEach((track) => track.stop());
         cancelAnimationFrame(animeFrameRef.current);
@@ -55,19 +64,20 @@ export const useInputSource = (gameStatus, playerStatus) => {
         if (gameStatus === undefined || playerStatus === undefined) return;
 
         if (ACTIVE_GAME_STATUSES.includes(gameStatus))
-            if (playerStatus === 'ALIVE')
-                !isInputSrcConfirmed && getInputSourceConfirmation();
+            if (playerStatus === ALIVE)
+                !isSrcConfirmed && getInputSourceConfirmation();
             else {
-                setIsInputSrcConfirmed(false);
+                setIsSrcConfirmed(false);
                 removeVideoCapture();
             }
         else if (CLOSED_GAME_STATUSES.includes(gameStatus)) {
-            setIsInputSrcConfirmed(false);
+            setIsSrcConfirmed(false);
             removeVideoCapture();
         }
+    }, [gameStatus, playerStatus, isSrcConfirmed]);
 
-        return () => removeVideoCapture;
-    }, [gameStatus, playerStatus, isInputSrcConfirmed]);
-
-    return { inputMode, isInputSrcConfirmed, canvasRef };
+    return {
+        input: { mode, isSrcConfirmed },
+        canvasRef,
+    };
 };

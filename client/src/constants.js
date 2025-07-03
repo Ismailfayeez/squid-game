@@ -1,22 +1,27 @@
-const START_GAME = 'START_GAME'
-const NOT_STARTED = 'NOT_STARTED'
-const PREPARING = 'PREPARING'
-const INSTRUCT = 'INSTRUCT'
-const READY = 'READY'
-const STARTED = 'STARTED'
-const ENDED = 'ENDED'
-const SCORE_BOARD = 'SCORE_BOARD'
-const GAME_STATUSES = [INSTRUCT, READY, STARTED, ENDED]
-const ACTIVE_GAME_STATUSES = [PREPARING, INSTRUCT, READY, STARTED]
-const CLOSED_GAME_STATUSES = [ENDED, SCORE_BOARD]
-const MOVE = 'MOVE'
-const FINISHED = 'FINISHED'
-const TOKEN_HEADER = 'gfg_token_header_key'
-const REMOVE_TOKEN = `${TOKEN_HEADER}=; Max-Age=0; path=/`
-const COLORS = ['#fc030f', '#05b030', '#fc03eb', '#fc5203', '#b09905']
-const MESSAGES = { STARTED: 'GAME START', ENDED: 'GAME OVER', READY: 'READY' }
-const PRIZES = ['3 billion', '1.5 billion', '750 million']
-const PLAYERS_COUNT = 16
+import { TOKEN_HEADER_KEY } from '../constants';
+
+const START_GAME = 'START_GAME';
+const NOT_STARTED = 'NOT_STARTED';
+const PREPARING = 'PREPARING';
+const INSTRUCT = 'INSTRUCT';
+const READY = 'READY';
+const STARTED = 'STARTED';
+const ENDED = 'ENDED';
+const SCORE_BOARD = 'SCORE_BOARD';
+const ROOM = 'ROOM';
+const GAME = 'GAME';
+const GAME_STATUSES = [INSTRUCT, READY, STARTED, ENDED];
+const ACTIVE_GAME_STATUSES = [PREPARING, INSTRUCT, READY, STARTED];
+const CLOSED_GAME_STATUSES = [ENDED, SCORE_BOARD];
+const ALIVE = 'ALIVE';
+const MOVE = 'MOVE';
+const FINISHED = 'FINISHED';
+const REMOVE_TOKEN = `${TOKEN_HEADER_KEY}=; Max-Age=0; path=/`;
+const COLORS = ['#fc030f', '#05b030', '#fc03eb', '#fc5203', '#b09905'];
+const MESSAGES = { STARTED: 'GAME START', ENDED: 'GAME OVER', READY: 'READY' };
+const PRIZES = ['3 billion', '1.5 billion', '750 million'];
+const PLAYERS_COUNT = 16;
+
 export {
     START_GAME,
     GAME_STATUSES,
@@ -26,10 +31,13 @@ export {
     PREPARING,
     SCORE_BOARD,
     MOVE,
+    ALIVE,
     FINISHED,
     REMOVE_TOKEN,
     COLORS,
     PLAYERS_COUNT,
     MESSAGES,
     PRIZES,
-}
+    ROOM,
+    GAME,
+};
